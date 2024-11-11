@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShadowTV</title>
+    <title>ShadowTV - Chat with Strangers</title>
     <style>
+        /* Basic styling for layout */
         body {
             display: flex;
             justify-content: center;
@@ -39,6 +40,11 @@
             height: 200px;
             background-color: #333366;
             border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 1.2rem;
         }
 
         .chat-section {
@@ -82,148 +88,19 @@
         .chat-input button:hover {
             background-color: #8e24aa;
         }
-    </style>
-</head>
-<body>
 
-<div class="container">
-    <!-- Video Section -->
-    <div class="video-section">
-        <div class="video" id="localVideo">Local Video</div>
-        <div class="video" id="remoteVideo">Remote Video</div>
-    </div>
-
-    <!-- Chat Section -->
-    <div class="chat-section">
-        <div class="chat-box" id="chatBox">
-            <!-- Chat messages will appear here -->
-        </div>
-        <div class="chat-input">
-            <input type="text" id="messageInput" placeholder="Type a message...">
-            <button id="sendButton">Send</button>
-        </div>
-        <div class="chat-controls">
-            <button id="nextButton" style="width: 100%; background-color: #6a1b9a; color: white; padding: 10px; border: none; margin-top: 10px;">Next</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Placeholder for WebRTC and chat functionalities
-
-    // Simulated function for sending messages to chat box
-    function sendMessage() {
-        const chatBox = document.getElementById('chatBox');
-        const messageInput = document.getElementById('messageInput');
-        
-        const message = messageInput.value.trim();
-        if (message) {
-            const msgDiv = document.createElement('div');
-            msgDiv.textContent = message;
-            chatBox.appendChild(msgDiv);
-            messageInput.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    }
-
-    // Event listeners for sending messages
-    document.getElementById('sendButton').addEventListener('click', sendMessage);
-    document.getElementById('messageInput').addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            sendMessage();
-        }
-    });
-
-    // Placeholder for 'Next' button functionality
-    document.getElementById('nextButton').addEventListener('click', function() {
-        alert('Next user functionality goes here.');
-    });
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShadowTV</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #1a1a2e;
-            color: white;
-        }
-
-        .container {
-            display: flex;
-            gap: 20px;
-        }
-
-        .video-section, .chat-section {
-            background-color: #222244;
-            border-radius: 10px;
-            padding: 15px;
-        }
-
-        .video-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .video {
-            width: 300px;
-            height: 200px;
-            background-color: #333366;
-            border-radius: 8px;
-        }
-
-        .chat-section {
-            display: flex;
-            flex-direction: column;
-            width: 400px;
-        }
-
-        .chat-box {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-            background-color: #2a2a4a;
-            border-radius: 8px;
-        }
-
-        .chat-input {
-            display: flex;
-            margin-top: 10px;
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 10px;
-            background-color: #333366;
-            border: none;
-            border-radius: 8px 0 0 8px;
-            color: white;
-            outline: none;
-        }
-
-        .chat-input button {
-            padding: 10px;
+        #nextButton {
+            width: 100%;
             background-color: #6a1b9a;
-            border: none;
-            border-radius: 0 8px 8px 0;
             color: white;
+            padding: 10px;
+            border: none;
+            margin-top: 10px;
             cursor: pointer;
+            border-radius: 8px;
         }
 
-        .chat-input button:hover {
+        #nextButton:hover {
             background-color: #8e24aa;
         }
     </style>
@@ -233,55 +110,119 @@
 <div class="container">
     <!-- Video Section -->
     <div class="video-section">
-        <div class="video" id="localVideo">Local Video</div>
-        <div class="video" id="remoteVideo">Remote Video</div>
+        <div class="video" id="localVideo">Your Video</div>
+        <div class="video" id="remoteVideo">Stranger's Video</div>
     </div>
 
     <!-- Chat Section -->
     <div class="chat-section">
-        <div class="chat-box" id="chatBox">
-            <!-- Chat messages will appear here -->
-        </div>
+        <div class="chat-box" id="chatBox"></div>
         <div class="chat-input">
             <input type="text" id="messageInput" placeholder="Type a message...">
             <button id="sendButton">Send</button>
         </div>
-        <div class="chat-controls">
-            <button id="nextButton" style="width: 100%; background-color: #6a1b9a; color: white; padding: 10px; border: none; margin-top: 10px;">Next</button>
-        </div>
+        <button id="nextButton">Next Chat</button>
     </div>
 </div>
 
 <script>
-    // Placeholder for WebRTC and chat functionalities
+    const ws = new WebSocket("ws://localhost:3000"); // Connect to signaling server
+    let peerConnection;
+    let localStream;
+    
+    async function startLocalVideo() {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        document.getElementById('localVideo').innerHTML = '';
+        document.getElementById('localVideo').srcObject = localStream;
+    }
 
-    // Simulated function for sending messages to chat box
+    function createPeerConnection() {
+        peerConnection = new RTCPeerConnection({
+            iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+        });
+
+        // Send ICE candidates to the other peer
+        peerConnection.onicecandidate = ({ candidate }) => {
+            if (candidate) {
+                ws.send(JSON.stringify({ type: "candidate", candidate }));
+            }
+        };
+
+        // Receive remote stream
+        peerConnection.ontrack = (event) => {
+            document.getElementById('remoteVideo').innerHTML = '';
+            document.getElementById('remoteVideo').srcObject = event.streams[0];
+        };
+
+        // Add local stream tracks to peer connection
+        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+    }
+
+    // Signal handling
+    ws.onmessage = async (message) => {
+        const data = JSON.parse(message.data);
+
+        if (data.type === "offer") {
+            createPeerConnection();
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            ws.send(JSON.stringify({ type: "answer", answer }));
+        }
+
+        if (data.type === "answer") {
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+        }
+
+        if (data.type === "candidate" && data.candidate) {
+            await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+        }
+
+        if (data.type === "new_user") {
+            await startLocalVideo();
+            createPeerConnection();
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            ws.send(JSON.stringify({ type: "offer", offer }));
+        }
+    };
+
+    // Next user functionality
+    document.getElementById('nextButton').addEventListener('click', () => {
+        if (peerConnection) {
+            peerConnection.close(); // Disconnect current peer
+            peerConnection = null;
+        }
+        ws.send(JSON.stringify({ type: "find_new_user" })); // Request a new match
+    });
+
+    // Chat functionality
     function sendMessage() {
         const chatBox = document.getElementById('chatBox');
         const messageInput = document.getElementById('messageInput');
-        
         const message = messageInput.value.trim();
+
         if (message) {
             const msgDiv = document.createElement('div');
-            msgDiv.textContent = message;
+            msgDiv.textContent = 'You: ' + message;
             chatBox.appendChild(msgDiv);
             messageInput.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Send message to remote peer (implement data channel if desired)
         }
     }
 
-    // Event listeners for sending messages
     document.getElementById('sendButton').addEventListener('click', sendMessage);
-    document.getElementById('messageInput').addEventListener('keydown', function(event) {
+    document.getElementById('messageInput').addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
             sendMessage();
         }
     });
 
-    // Placeholder for 'Next' button functionality
-    document.getElementById('nextButton').addEventListener('click', function() {
-        alert('Next user functionality goes here.');
-    });
+    ws.onopen = () => {
+        ws.send(JSON.stringify({ type: "find_new_user" }));
+    };
 </script>
 
 </body>
