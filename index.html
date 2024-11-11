@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowTV</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .video-section, .chat-section {
+            background-color: #222244;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .video-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .video {
+            width: 300px;
+            height: 200px;
+            background-color: #333366;
+            border-radius: 8px;
+        }
+
+        .chat-section {
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #2a2a4a;
+            border-radius: 8px;
+        }
+
+        .chat-input {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            background-color: #333366;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            color: white;
+            outline: none;
+        }
+
+        .chat-input button {
+            padding: 10px;
+            background-color: #6a1b9a;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            color: white;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #8e24aa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Video Section -->
+    <div class="video-section">
+        <div class="video" id="localVideo">Local Video</div>
+        <div class="video" id="remoteVideo">Remote Video</div>
+    </div>
+
+    <!-- Chat Section -->
+    <div class="chat-section">
+        <div class="chat-box" id="chatBox">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button id="sendButton">Send</button>
+        </div>
+        <div class="chat-controls">
+            <button id="nextButton" style="width: 100%; background-color: #6a1b9a; color: white; padding: 10px; border: none; margin-top: 10px;">Next</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Placeholder for WebRTC and chat functionalities
+
+    // Simulated function for sending messages to chat box
+    function sendMessage() {
+        const chatBox = document.getElementById('chatBox');
+        const messageInput = document.getElementById('messageInput');
+        
+        const message = messageInput.value.trim();
+        if (message) {
+            const msgDiv = document.createElement('div');
+            msgDiv.textContent = message;
+            chatBox.appendChild(msgDiv);
+            messageInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    }
+
+    // Event listeners for sending messages
+    document.getElementById('sendButton').addEventListener('click', sendMessage);
+    document.getElementById('messageInput').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    // Placeholder for 'Next' button functionality
+    document.getElementById('nextButton').addEventListener('click', function() {
+        alert('Next user functionality goes here.');
+    });
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowTV</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .video-section, .chat-section {
+            background-color: #222244;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .video-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .video {
+            width: 300px;
+            height: 200px;
+            background-color: #333366;
+            border-radius: 8px;
+        }
+
+        .chat-section {
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #2a2a4a;
+            border-radius: 8px;
+        }
+
+        .chat-input {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            background-color: #333366;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            color: white;
+            outline: none;
+        }
+
+        .chat-input button {
+            padding: 10px;
+            background-color: #6a1b9a;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            color: white;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #8e24aa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Video Section -->
+    <div class="video-section">
+        <div class="video" id="localVideo">Local Video</div>
+        <div class="video" id="remoteVideo">Remote Video</div>
+    </div>
+
+    <!-- Chat Section -->
+    <div class="chat-section">
+        <div class="chat-box" id="chatBox">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button id="sendButton">Send</button>
+        </div>
+        <div class="chat-controls">
+            <button id="nextButton" style="width: 100%; background-color: #6a1b9a; color: white; padding: 10px; border: none; margin-top: 10px;">Next</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Placeholder for WebRTC and chat functionalities
+
+    // Simulated function for sending messages to chat box
+    function sendMessage() {
+        const chatBox = document.getElementById('chatBox');
+        const messageInput = document.getElementById('messageInput');
+        
+        const message = messageInput.value.trim();
+        if (message) {
+            const msgDiv = document.createElement('div');
+            msgDiv.textContent = message;
+            chatBox.appendChild(msgDiv);
+            messageInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    }
+
+    // Event listeners for sending messages
+    document.getElementById('sendButton').addEventListener('click', sendMessage);
+    document.getElementById('messageInput').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    // Placeholder for 'Next' button functionality
+    document.getElementById('nextButton').addEventListener('click', function() {
+        alert('Next user functionality goes here.');
+    });
+</script>
+
+</body>
+</html>
